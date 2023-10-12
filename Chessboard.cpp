@@ -1,61 +1,52 @@
 #include <GL/glut.h>
 #include <cmath>
 
-int gridSize = 8; // Size of the chessboard grid
-float angleX = 0.0f; // Rotation angle around X-axis
-float angleY = 0.0f; // Rotation angle around Y-axis
-int prevMouseX = 0; // Previous mouse X position
-int prevMouseY = 0; // Previous mouse Y position
-bool isRotating = false; // Flag to track mouse rotation
+int gridSize = 8;
+float angleX = 0.0f;
+float angleY = 0.0f;
+int prevMouseX = 0;
+int prevMouseY = 0;
+bool isRotating = false;
 
 void drawChessboard() {
     for (int i = 0; i < gridSize; ++i) {
         for (int j = 0; j < gridSize; ++j) {
             if ((i + j) % 2 == 0) {
-                glColor3f(1.0, 1.0, 1.0); // White square
+                glColor3f(1.0, 1.0, 1.0);
             }
             else {
-                glColor3f(0.0, 0.0, 0.0); // Black square
+                glColor3f(0.0, 0.0, 0.0);
             }
 
             glPushMatrix();
-            glTranslatef(i - gridSize / 2, 0.0, j - gridSize / 2); // Position the square
+            glTranslatef(i - gridSize / 2, 0.0, j - gridSize / 2);
             glScalef(1.0, 0.2, 1.0);
-            glutSolidCube(1.0); // Draw a unit cube as a square
+            glutSolidCube(1.0);
             glPopMatrix();
         }
     }
 }
 
 void drawWoodenBoard() {
-    glColor3f(0.6, 0.4, 0.2); // Brown color for the wooden board
+    glColor3f(0.6, 0.4, 0.2);
 
     glPushMatrix();
-    glTranslatef(-0.5, -0.3, -0.5); // Position the wooden board below the chessboard
-    glScalef(8.5, 0.5, 8.5); // Scale the wooden board
-    glutSolidCube(1.0); // Draw a large wooden cube
+    glTranslatef(-0.5, -0.3, -0.5);
+    glScalef(8.5, 0.5, 8.5);
+    glutSolidCube(1.0); 
     glPopMatrix();
 }
 
 void display() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
-
-    // Set up the camera position
-    gluLookAt(5.0, 5.0, 15.0,  // Eye position
-        0.0, 0.0, 0.0,        // Look-at point
-        0.0, 1.0, 0.0);       // Up vector
-
-    // Apply mouse-based rotation
+    gluLookAt(5.0, 5.0, 15.0, 
+        0.0, 0.0, 0.0,
+        0.0, 1.0, 0.0);
     glRotatef(angleY, 1.0, 0.0, 0.0);
     glRotatef(angleX, 0.0, 1.0, 0.0);
-
-    // Draw the wooden board
     drawWoodenBoard();
-
-    // Draw the chessboard
     drawChessboard();
-
     glutSwapBuffers();
 }
 
